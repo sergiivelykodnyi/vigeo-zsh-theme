@@ -1,5 +1,3 @@
-# https://github.com/agnoster/agnoster-zsh-theme
-
 ### Segment drawing
 # A few utility functions to make it easy and re-usable to draw segmented prompts
 
