@@ -8,7 +8,7 @@ fi
 
 # Characters
 SEGMENT_SEPARATOR="\ue0b0"
-PLUSMINUS="\u00b1"
+# PLUSMINUS="\u00b1"
 BRANCH="\ue0a0"
 DETACHED="\u27a6"
 CROSS="\u2718"
@@ -56,7 +56,7 @@ prompt_context() {
 
 # Git: branch/detached head, dirty status
 prompt_git() {
-  local color ref s=''
+  local color ref s=""
   is_dirty() {
     test -n "$(git status --porcelain --ignore-submodules)"
   }
@@ -68,7 +68,7 @@ prompt_git() {
       # Ensure the index is up to date.
       git update-index --really-refresh -q &>/dev/null;
 
-      # Check for uncommitted changes in the index.
+      # Check for uncommitted changes in the index. (staged)
       if ! $(git diff --quiet --ignore-submodules --cached); then
         s+="+";
       fi;
@@ -83,6 +83,10 @@ prompt_git() {
         s+="?";
       fi;
 
+      if [ "$s" != "" ]; then
+        s+=" ";
+      fi;
+
       ref="${ref} $s"
     else
       color=green
@@ -91,7 +95,7 @@ prompt_git() {
 
     # Check for stashed files.
     if $(git rev-parse --verify refs/stash &>/dev/null); then
-      ref="${ref}$"
+      ref="${ref}$ "
     fi;
 
     if [[ "${ref/.../}" == "$ref" ]]; then
